@@ -6,9 +6,29 @@
 
 <p align="center">
   <a href="https://gumoraes11.github.io/Pear-Shader/">View Website</a>
+  ·
+  <a href="https://github.com/GuMoraes11/Pear-Shader/releases/tag/v0.1.0">Download Unity Package</a>
 </p>
 
 ---
+
+## ✨ Installation
+
+Download the latest `.unitypackage` from the Releases page:
+
+https://github.com/GuMoraes11/Pear-Shader/releases
+
+Then import it into Unity:
+
+1. Open your Unity project.
+2. Go to `Assets > Import Package > Custom Package`.
+3. Select `PearShader_v0.1.0.unitypackage`.
+4. Import the `Assets/Pear` folder.
+
+Use the correct shader for your render pipeline:
+
+- URP: `Pear/URP/Toon`
+- Built-In Render Pipeline: `Pear/BiRP/Toon`
 
 ## ✨ Overview
 
