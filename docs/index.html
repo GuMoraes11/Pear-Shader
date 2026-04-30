@@ -25,6 +25,7 @@
         <a href="#features">Features</a>
         <a href="#inspector">Inspector</a>
         <a href="#comparison">Comparison</a>
+        <a href="#code-viewer">Code</a>
         <a href="#roadmap">Roadmap</a>
         <a href="https://github.com/GuMoraes11/Pear-Shader" target="_blank" rel="noreferrer">GitHub</a>
       </div>
@@ -177,6 +178,61 @@
       </div>
     </section>
 
+    <section id="code-viewer" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">Live Code Viewer</p>
+        <h2>Browse the current shader and inspector source.</h2>
+        <p class="section-subtext">
+          These panels pull directly from the GitHub repository so visitors can
+          inspect the latest versions of the core Pear files without leaving the page.
+        </p>
+      </div>
+
+      <div class="code-grid">
+        <article class="code-card">
+          <div class="code-card-header">
+            <div>
+              <p class="code-label">Shader</p>
+              <h3>PearToon.shader</h3>
+            </div>
+            <a
+              class="code-link"
+              href="https://github.com/GuMoraes11/Pear-Shader/blob/main/Assets/Pear/Runtime/Shaders/PearToon.shader"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Open on GitHub
+            </a>
+          </div>
+
+          <div class="code-window">
+            <pre><code id="shader-code">Loading PearToon.shader...</code></pre>
+          </div>
+        </article>
+
+        <article class="code-card">
+          <div class="code-card-header">
+            <div>
+              <p class="code-label">Custom Inspector</p>
+              <h3>PearToonShaderGUI.cs</h3>
+            </div>
+            <a
+              class="code-link"
+              href="https://github.com/GuMoraes11/Pear-Shader/blob/main/Assets/Pear/Editor/ShaderGUI/PearToonShaderGUI.cs"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Open on GitHub
+            </a>
+          </div>
+
+          <div class="code-window">
+            <pre><code id="gui-code">Loading PearToonShaderGUI.cs...</code></pre>
+          </div>
+        </article>
+      </div>
+    </section>
+
     <section id="roadmap" class="section">
       <div class="section-heading">
         <p class="eyebrow">Roadmap</p>
@@ -214,5 +270,36 @@
   <footer class="footer">
     <p>Pear Shader — Unity URP technical art portfolio project.</p>
   </footer>
+
+  <script>
+    async function loadCode(targetId, url, fallbackMessage) {
+      const target = document.getElementById(targetId);
+
+      try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch file.");
+        }
+
+        const text = await response.text();
+        target.textContent = text;
+      } catch (error) {
+        target.textContent = fallbackMessage;
+      }
+    }
+
+    loadCode(
+      "shader-code",
+      "https://raw.githubusercontent.com/GuMoraes11/Pear-Shader/main/Assets/Pear/Runtime/Shaders/PearToon.shader",
+      "Could not load PearToon.shader. Check that the file path in the repository matches this URL."
+    );
+
+    loadCode(
+      "gui-code",
+      "https://raw.githubusercontent.com/GuMoraes11/Pear-Shader/main/Assets/Pear/Editor/ShaderGUI/PearToonShaderGUI.cs",
+      "Could not load PearToonShaderGUI.cs. Check that the file path in the repository matches this URL."
+    );
+  </script>
 </body>
 </html>
