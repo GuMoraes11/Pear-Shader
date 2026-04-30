@@ -1,4 +1,4 @@
-Shader "Pear/Toon"
+Shader "Pear/URP/Toon"
 {
     Properties
     {
