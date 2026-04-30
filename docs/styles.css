@@ -310,42 +310,177 @@ h3 {
 }
 
 @media (max-width: 860px) {
-  .nav,
-  .hero-grid,
-  .split,
-  .split.reverse {
-    grid-template-columns: 1fr;
+  body {
+    background:
+      radial-gradient(circle at top left, rgba(166, 217, 79, 0.22), transparent 18rem),
+      radial-gradient(circle at 90% 8%, rgba(255, 231, 199, 0.48), transparent 18rem),
+      linear-gradient(180deg, #fbfbf7 0%, #f7f6ef 100%);
+  }
+
+  .hero {
+    min-height: auto;
+    padding: 18px;
   }
 
   .nav {
     align-items: flex-start;
     gap: 18px;
     flex-direction: column;
+    padding: 10px 0 26px;
+  }
+
+  .brand {
+    font-size: 1rem;
   }
 
   .nav-links {
-    flex-wrap: wrap;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    font-size: 0.95rem;
   }
 
-  .feature-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .hero {
-    min-height: auto;
+  .nav-links a {
+    padding: 9px 12px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.62);
+    text-align: center;
   }
 
   .hero-grid {
+    grid-template-columns: 1fr;
     min-height: auto;
-    padding-top: 40px;
+    gap: 30px;
+    padding-top: 10px;
+  }
+
+  .eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-size: clamp(2.65rem, 13vw, 4rem);
+    line-height: 0.96;
+    letter-spacing: -0.075em;
+    margin-bottom: 18px;
+  }
+
+  h2 {
+    font-size: clamp(2rem, 9vw, 2.7rem);
+    line-height: 1.02;
+  }
+
+  .hero-text {
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .hero-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .button {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 16px;
+  }
+
+  .hero-card,
+  .screenshot-card,
+  .feature-card,
+  .roadmap-item {
+    border-radius: 22px;
+  }
+
+  .hero-card,
+  .screenshot-card {
+    padding: 10px;
   }
 
   .showcase-image,
   .tall-image {
-    min-height: 300px;
+    min-height: auto;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+    border-radius: 16px;
+  }
+
+  .section {
+    padding: 56px 18px;
+  }
+
+  .intro {
+    padding-top: 36px;
+    padding-bottom: 36px;
+  }
+
+  .intro p {
+    font-size: clamp(1.35rem, 7vw, 2rem);
+    line-height: 1.16;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .feature-card {
+    padding: 20px;
+  }
+
+  .split,
+  .split.reverse {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .split.reverse .screenshot-card {
+    order: 2;
+  }
+
+  .split.reverse > div:last-child {
+    order: 1;
+  }
+
+  .check-list li {
+    padding-left: 24px;
   }
 
   .roadmap-item {
     grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 430px) {
+  .hero {
+    padding: 16px;
+  }
+
+  .nav-links {
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    font-size: clamp(2.35rem, 12vw, 3.15rem);
+    letter-spacing: -0.07em;
+  }
+
+  .hero-text {
+    font-size: 0.98rem;
+  }
+
+  .section {
+    padding-left: 16px;
+    padding-right: 16px;
   }
 }
