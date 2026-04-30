@@ -1,7 +1,7 @@
 <h1 align="center">🍐 Pear Shader</h1>
 
 <p align="center">
-  Stylized Unity URP toon shader toolkit with user-friendly controls.
+  A stylized Unity URP toon shader toolkit with pear-themed presets and artist-friendly controls.
 </p>
 
 <p align="center">
@@ -12,44 +12,74 @@
 
 ## ✨ Overview
 
-**Pear** is a stylized shader toolkit built in Unity URP, designed to give artists clean, intuitive control over toon shading and stylized rendering.
+**Pear** is a stylized shader toolkit built in Unity URP. It is meant to give artists and non-technical users a cleaner way to control toon shading, color, and stylized material effects without digging through a messy wall of shader properties.
 
-It combines:
+It started as a shader for my own Unity projects, then grew into a more focused technical art portfolio project.
 
-- Custom ShaderLab/HLSL lighting
-- Multi-band toon shading
-- Ramp-based shading workflows
-- A fully custom Unity material inspector
-- Stylized effects like rim light, emission, and matcap
+Pear currently includes:
 
-Built as a **technical art portfolio project**, Pear focuses on readability, usability, and clean architecture.
+- Custom ShaderLab/HLSL toon lighting
+- Two-band and three-band toon shading
+- Ramp texture support
+- Texture hue shifting
+- Rim light, emission, matcap reflection, glitter shimmer, and outline controls
+- A custom Unity material inspector
+- Pear-themed presets for quick art direction
+
+The goal is not to become a giant all-purpose shader package. Pear is intentionally smaller, readable, and focused on showing clean shader code, usable editor tooling, and polished stylized results.
 
 ---
 
-## 🎯 Features
+## ✨ Features
 
-- 🎨 **Toon Lighting**
-  - Shadow threshold, softness, color, intensity
+- **Toon Lighting**
+  - Shadow threshold, softness, color, intensity, and ambient color controls
 
-- 🌗 **Multi-Band Shading**
-  - Optional midtone band (shadow → midtone → light)
+- **Multi-Band Shading**
+  - Optional midtone band for shadow → midtone → light workflows
 
-- 🌈 **Ramp Texture Support**
-  - Custom shading control via textures
+- **Ramp Texture Support**
+  - Custom shading control through horizontal ramp textures
 
-- ✨ **Rim Lighting**
-  - Fresnel-based stylized highlights
+- **Pear-Themed Presets**
+  - Soft Anime, Cel Shadow, and Glossy Toy looks tuned around a cohesive pear-green palette
 
-- 💡 **Emission**
-  - Color, mask, intensity, pulse
+- **Stylized Effects**
+  - Rim light, emission, matcap reflection, and glitter shimmer controls
 
-- 🧊 **Matcap Reflection**
-  - Fake glossy / plastic / pearlescent look
+- **Outline Pass**
+  - Inverted hull outline with width, color, and depth offset controls
 
-- 🧰 **Custom Inspector UI**
-  - Foldout groups
-  - Feature toggles
-  - Clean artist workflow
+- **Texture Hue Shift**
+  - Maskable hue, saturation, and brightness controls for base texture variation
+
+- **Custom Inspector UI**
+  - Foldout groups, feature toggles, preset buttons, keyword reset, and a customizable accent color
+
+---
+
+## ✨ Current Presets
+
+Pear currently has three focused presets:
+
+- **Soft Anime** — gentle toon lighting, subtle rim light, soft pear/sage shadow tint, and a thin outline.
+- **Cel Shadow** — hard graphic banding, olive-toned midtones and shadows, and a bolder outline.
+- **Glossy Toy** — soft toy-like lighting with rim highlights and a pear shimmer.
+
+The presets are meant to show different material directions while still feeling like they belong to the same shader. They are simple on purpose: enough to demonstrate the system clearly, without making the project feel scattered.
+
+---
+
+## ✨ Project Focus
+
+Pear is currently focused on:
+
+- Polishing the existing shader features & preset values
+- Improving the demo scene
+- Capturing clean screenshots and GIFs for the website
+- Keeping the code and inspector readable enough for a portfolio review
+
+Future work may include ScriptableObject-based presets, stronger demo materials, and a more complete breakdown of the shader architecture.
 
 ---
 
