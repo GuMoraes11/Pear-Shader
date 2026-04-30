@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Pear Toon Shader Toolkit</title>
+  <meta
+    name="description"
+    content="Pear is a stylized Unity URP toon shader toolkit with artist-friendly controls, custom inspector UI, ramp lighting, rim light, emission, matcap, and portfolio-ready demo materials."
+  />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header class="hero">
+    <nav class="nav">
+      <div class="brand">
+        <span class="brand-mark">●</span>
+        <span>Pear</span>
+      </div>
+
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#shader-ui">Shader UI</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="https://github.com/YOUR_USERNAME/Pear-Toon-Shader">GitHub</a>
+      </div>
+    </nav>
+
+    <section class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Unity URP Tech Art Project</p>
+        <h1>Stylized toon shading with artist-friendly controls.</h1>
+        <p class="hero-text">
+          Pear is a compact Unity URP shader toolkit built for stylized characters,
+          props, and portfolio-ready material demos. It combines hand-written HLSL,
+          a custom Unity material inspector, ramp lighting, rim light, emission, and
+          matcap effects.
+        </p>
+
+        <div class="hero-actions">
+          <a class="button primary" href="https://github.com/YOUR_USERNAME/Pear-Toon-Shader">
+            View on GitHub
+          </a>
+          <a class="button secondary" href="#features">
+            See Features
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="image-placeholder">
+          <span>Hero render / shader demo GIF</span>
+        </div>
+      </div>
+    </section>
+  </header>
+
+  <main>
+    <section class="section intro">
+      <p>
+        Pear is designed like a small production shader tool: readable shader code,
+        clean editor tooling, grouped controls, feature toggles, and a demo scene
+        that shows technical art value instead of only visual output.
+      </p>
+    </section>
+
+    <section id="features" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">Current Features</p>
+        <h2>Built for stylized material workflows.</h2>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <h3>URP Toon Lighting</h3>
+          <p>
+            Custom ShaderLab/HLSL lighting with shadow color, light threshold,
+            softness, and direct light intensity controls.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <h3>Multi-Band Shading</h3>
+          <p>
+            Optional midtone band support for shadow → midtone → lit shading,
+            giving artists more control than a basic two-tone shader.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <h3>Ramp Texture Mode</h3>
+          <p>
+            Horizontal ramp textures can define custom lighting bands for more
+            complex stylized looks without adding endless sliders.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <h3>Rim Light</h3>
+          <p>
+            Fresnel-style rim lighting adds silhouette highlights for anime,
+            toy-like, or neon material styles.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <h3>Emission</h3>
+          <p>
+            Emission color, mask, intensity, and pulse controls support glowing
+            accents and future neon presets.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <h3>Matcap Reflection</h3>
+          <p>
+            View-based matcap sampling creates fake glossy, pearlescent, or
+            metallic highlights without full PBR complexity.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="shader-ui" class="section split">
+      <div>
+        <p class="eyebrow">Custom Inspector</p>
+        <h2>A shader UI that artists can actually use.</h2>
+        <p>
+          Pear includes a custom Unity ShaderGUI with grouped foldouts, feature
+          toggles, a customizable accent color, and clean controls for each
+          stylized effect.
+        </p>
+
+        <ul class="check-list">
+          <li>Grouped controls for Base, Toon Lighting, Rim, Emission, Matcap, and Advanced</li>
+          <li>Feature toggles connected to local shader keywords</li>
+          <li>Custom styled inspector header and color accents</li>
+          <li>Hidden controls when optional effects are disabled</li>
+        </ul>
+      </div>
+
+      <div class="screenshot-card">
+        <div class="image-placeholder tall">
+          <span>Inspector screenshot</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section split reverse">
+      <div class="screenshot-card">
+        <div class="image-placeholder tall">
+          <span>Material comparison screenshot</span>
+        </div>
+      </div>
+
+      <div>
+        <p class="eyebrow">Demo Scene</p>
+        <h2>Designed for a tech-art portfolio.</h2>
+        <p>
+          The final demo scene will show multiple material presets, a rotating
+          model, feature comparisons, shadow response, and clean lighting suitable
+          for screenshots and short video clips.
+        </p>
+      </div>
+    </section>
+
+    <section id="roadmap" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">Roadmap</p>
+        <h2>What is coming next.</h2>
+      </div>
+
+      <div class="roadmap">
+        <div class="roadmap-item done">
+          <span>Done</span>
+          <p>Base URP lighting, toon bands, midtone, ramp, rim, emission, matcap, and custom inspector.</p>
+        </div>
+
+        <div class="roadmap-item current">
+          <span>Next</span>
+          <p>Inverted hull outline pass with artist controls for width, color, and depth offset.</p>
+        </div>
+
+        <div class="roadmap-item">
+          <span>Later</span>
+          <p>Preset system, polished demo scene, GitHub documentation, and final portfolio writeup.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>
+      Pear Toon Shader Toolkit — Unity URP technical art portfolio project.
+    </p>
+  </footer>
+</body>
+</html>
