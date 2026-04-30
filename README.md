@@ -5,7 +5,7 @@
 <h1 align="center">🍐 Pear Shader</h1>
 
 <p align="center">
-  Stylized Unity URP toon shader toolkit with artist-friendly controls.
+  Stylized Unity URP toon shader toolkit with user-friendly controls.
 </p>
 
 ---
