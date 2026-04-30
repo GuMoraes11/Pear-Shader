@@ -11,8 +11,10 @@
   --peach: #ffe7c7;
   --line: rgba(60, 85, 35, 0.12);
   --shadow: rgba(90, 120, 45, 0.12);
-  --code-bg: #f3f7ea;
+  --code-bg: #f8fbf0;
+  --code-bg-2: #f2f7e7;
   --code-line: rgba(80, 110, 45, 0.1);
+  --code-border: rgba(118, 177, 46, 0.16);
 }
 
 * {
@@ -279,12 +281,15 @@ h3 {
 
 .code-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
+  width: 100%;
 }
 
 .code-card {
   padding: 18px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .code-card-header {
@@ -328,22 +333,31 @@ h3 {
 }
 
 .code-window {
-  max-height: 540px;
-  overflow: auto;
-  border: 1px solid var(--code-line);
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--code-border);
   border-radius: 18px;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.22)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.18)),
     var(--code-bg);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
-.code-window pre {
+.code-pre {
   margin: 0;
-  padding: 18px;
-  min-width: max-content;
+  max-height: 540px;
+  overflow: auto;
+  width: 100%;
+  max-width: 100%;
+  padding: 22px 20px;
 }
 
-.code-window code {
+.code-pre code {
+  display: block;
+  min-width: 0;
+  width: max-content;
+  max-width: none;
   color: #2f3a25;
   font-family:
     "SFMono-Regular",
@@ -353,8 +367,90 @@ h3 {
     Menlo,
     monospace;
   font-size: 0.83rem;
-  line-height: 1.55;
+  line-height: 1.6;
   white-space: pre;
+}
+
+/* Prism reset / pear theme */
+.code-pre[class*="language-"],
+.code-pre code[class*="language-"],
+pre[class*="language-"],
+code[class*="language-"] {
+  background: transparent !important;
+  text-shadow: none !important;
+  font-family:
+    "SFMono-Regular",
+    SFMono-Regular,
+    Consolas,
+    "Liberation Mono",
+    Menlo,
+    monospace !important;
+  font-size: 0.83rem !important;
+  line-height: 1.6 !important;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #7d8b70;
+  font-style: italic;
+}
+
+.token.punctuation {
+  color: #5c674f;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #cf7f3c;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  color: #628f2c;
+}
+
+.token.operator,
+.token.entity,
+.token.url {
+  color: #55674a;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #8d55b7;
+  font-weight: 600;
+}
+
+.token.function,
+.token.class-name {
+  color: #2f7a6b;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  color: #b15d72;
+}
+
+.token.important,
+.token.bold {
+  font-weight: 700;
+}
+
+.token.italic {
+  font-style: italic;
 }
 
 .roadmap {
@@ -588,12 +684,13 @@ h3 {
     align-items: flex-start;
   }
 
-  .code-link {
-    min-height: 34px;
+  .code-window {
+    border-radius: 16px;
   }
 
-  .code-window {
+  .code-pre {
     max-height: 420px;
+    padding: 14px;
   }
 
   .roadmap-item {

@@ -11,6 +11,12 @@
   />
 
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- Prism syntax highlighting -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css"
+  />
 </head>
 
 <body>
@@ -206,7 +212,7 @@
           </div>
 
           <div class="code-window">
-            <pre><code id="shader-code">Loading PearToon.shader...</code></pre>
+            <pre class="code-pre"><code id="shader-code" class="language-clike">Loading PearToon.shader...</code></pre>
           </div>
         </article>
 
@@ -227,8 +233,9 @@
           </div>
 
           <div class="code-window">
-            <pre><code id="gui-code">Loading PearToonShaderGUI.cs...</code></pre>
-          </div>
+            <<div class="code-window">
+              <pre class="code-pre"><code id="gui-code" class="language-csharp">Loading PearToonShaderGUI.cs...</code></pre>
+            </div>
         </article>
       </div>
     </section>
@@ -271,8 +278,12 @@
     <p>Pear Shader — Unity URP technical art portfolio project.</p>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-clike.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js"></script>
+
   <script>
-    async function loadCode(targetId, url, fallbackMessage) {
+    async function loadCode(targetId, url, languageClass, fallbackMessage) {
       const target = document.getElementById(targetId);
 
       try {
@@ -283,8 +294,14 @@
         }
 
         const text = await response.text();
+        target.className = languageClass;
         target.textContent = text;
+
+        if (window.Prism) {
+          Prism.highlightElement(target);
+        }
       } catch (error) {
+        target.className = languageClass;
         target.textContent = fallbackMessage;
       }
     }
@@ -292,12 +309,14 @@
     loadCode(
       "shader-code",
       "https://raw.githubusercontent.com/GuMoraes11/Pear-Shader/main/Assets/Pear/Runtime/Shaders/PearToon.shader",
+      "language-clike",
       "Could not load PearToon.shader. Check that the file path in the repository matches this URL."
     );
 
     loadCode(
       "gui-code",
       "https://raw.githubusercontent.com/GuMoraes11/Pear-Shader/main/Assets/Pear/Editor/ShaderGUI/PearToonShaderGUI.cs",
+      "language-csharp",
       "Could not load PearToonShaderGUI.cs. Check that the file path in the repository matches this URL."
     );
   </script>
