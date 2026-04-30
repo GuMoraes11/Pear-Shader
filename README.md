@@ -1,36 +1,58 @@
-# Pear Shader
+<h1 align="center">🍐 Pear Shader</h1>
 
-**Pear** is a stylized Unity URP toon shader toolkit built as a technical art portfolio project.
+<p align="center">
+  Stylized Unity URP toon shader toolkit with user-friendly controls.
+</p>
 
-ShaderLab/HLSL shader, a custom Unity material inspector, user-friendly controls, optional stylized effects, and a demo scene designed to show shader features clearly.
+<p align="center">
+  <a href="https://gumoraes11.github.io/Pear-Shader/">View Website</a>
+</p>
 
-## Current Features
+---
 
-- Custom Unity URP toon shader
-- Base texture and color tint
-- Normal map support
-- Main light and shadow support
-- Two-band toon lighting
-- Optional midtone band for three-band shading
-- Ramp texture support for custom lighting bands
-- Fresnel-style rim light
-- Emission color, mask, intensity, and pulse controls
-- Matcap / fake reflection layer
-- Custom styled ShaderGUI with grouped controls
-- User-selectable inspector accent color
+## ✨ Overview
 
-## Roadmap
+**Pear** is a stylized shader toolkit built in Unity URP, designed to give artists clean, intuitive control over toon shading and stylized rendering.
 
-- [x] Base URP shader
-- [x] Toon lighting
-- [x] Midtone band
-- [x] Ramp texture support
-- [x] Rim light
-- [x] Emission
-- [x] Matcap reflection
-- [x] Custom material inspector
-- [ ] Inverted hull outline pass
-- [ ] Preset system
-- [ ] Demo scene polish
-- [ ] Final documentation
-- [ ] Portfolio writeup
+It combines:
+
+- Custom ShaderLab/HLSL lighting
+- Multi-band toon shading
+- Ramp-based shading workflows
+- A fully custom Unity material inspector
+- Stylized effects like rim light, emission, and matcap
+
+Built as a **technical art portfolio project**, Pear focuses on readability, usability, and clean architecture.
+
+---
+
+## 🎯 Features
+
+- 🎨 **Toon Lighting**
+  - Shadow threshold, softness, color, intensity
+
+- 🌗 **Multi-Band Shading**
+  - Optional midtone band (shadow → midtone → light)
+
+- 🌈 **Ramp Texture Support**
+  - Custom shading control via textures
+
+- ✨ **Rim Lighting**
+  - Fresnel-based stylized highlights
+
+- 💡 **Emission**
+  - Color, mask, intensity, pulse
+
+- 🧊 **Matcap Reflection**
+  - Fake glossy / plastic / pearlescent look
+
+- 🧰 **Custom Inspector UI**
+  - Foldout groups
+  - Feature toggles
+  - Clean artist workflow
+
+---
+
+## 📄 License
+
+MIT License
