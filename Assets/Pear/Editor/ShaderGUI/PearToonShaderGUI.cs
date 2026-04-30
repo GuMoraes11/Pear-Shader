@@ -5,11 +5,13 @@ namespace Pear.Editor
 {
     public class PearToonShaderGUI : ShaderGUI
     {
+        #region Foldout State and Styling
+
+        private static bool presetFoldout = true;
         private static bool baseFoldout = true;
         private static bool toonFoldout = true;
-        private static bool rimFoldout = false;
-        private static bool emissionFoldout = false;
-        private static bool matcapFoldout = false;
+        private static bool stylizedEffectsFoldout = false;
+        private static bool outlineFoldout = false;
         private static bool advancedFoldout = false;
         private static bool uiSettingsFoldout = false;
 
@@ -23,6 +25,10 @@ namespace Pear.Editor
         private static readonly Color HeaderDarkColor = new Color(0.12f, 0.12f, 0.12f, 1f);
         private static readonly Color SectionHeaderColor = new Color(0.24f, 0.24f, 0.24f, 1f);
         private static readonly Color DisabledColor = new Color(0.45f, 0.45f, 0.45f, 1f);
+
+        #endregion
+
+        #region Unity Entry Point
 
         public override void OnGUI(MaterialEditor materialEditor, MaterialProperty[] properties)
         {
@@ -40,13 +46,17 @@ namespace Pear.Editor
                 DrawUISettings();
             }
 
-            DrawBaseSection();
+            DrawPresetSection(material);
+            DrawBaseSection(material);
             DrawToonLightingSection(material);
-            DrawRimLightSection(material);
-            DrawEmissionSection(material);
-            DrawMatcapSection(material);
+            DrawStylizedEffectsSection(material);
+            DrawOutlineSection(material);
             DrawAdvancedSection(material);
         }
+
+        #endregion
+
+        #region Header and Settings UI
 
         private void DrawHeader(Material material)
         {
@@ -99,17 +109,12 @@ namespace Pear.Editor
         private void DrawUISettings()
         {
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-
             EditorGUILayout.Space(4);
             EditorGUILayout.LabelField("UI Settings", EditorStyles.boldLabel);
 
             EditorGUI.BeginChangeCheck();
-
             Color newAccent = EditorGUILayout.ColorField(
-                new GUIContent(
-                    "Main UI Color",
-                    "Controls the accent color used by the Pear material inspector."
-                ),
+                new GUIContent("Main UI Color", "Controls the accent color used by the Pear material inspector."),
                 accentColor
             );
 
@@ -124,41 +129,100 @@ namespace Pear.Editor
             EditorGUILayout.Space(6);
         }
 
-        private void DrawBaseSection()
+        #endregion
+
+        #region Presets
+
+        private void DrawPresetSection(Material material)
         {
             DrawSection(
-                "Color & Normals",
+                "Presets",
+                ref presetFoldout,
+                null,
+                () =>
+                {
+                    if (material == null)
+                    {
+                        return;
+                    }
+
+                    EditorGUILayout.LabelField("Quick Looks", EditorStyles.boldLabel);
+                    EditorGUILayout.Space(2);
+
+                    EditorGUILayout.BeginHorizontal();
+
+                    if (GUILayout.Button("Soft Anime", GUILayout.Height(26)))
+                    {
+                        PearPresetApplier.ApplySoftAnime(material);
+                    }
+
+                    if (GUILayout.Button("Cel Shadow", GUILayout.Height(26)))
+                    {
+                        PearPresetApplier.ApplyCelShadow(material);
+                    }
+
+                    if (GUILayout.Button("Glossy Toy", GUILayout.Height(26)))
+                    {
+                        PearPresetApplier.ApplyGlossyToy(material);
+                    }
+
+                    EditorGUILayout.EndHorizontal();
+
+                    EditorGUILayout.Space(4);
+                    EditorGUILayout.HelpBox("Presets overwrite Pear shader values on the selected material. Duplicate materials before applying if you want to compare looks side by side.", MessageType.None);
+                }
+            );
+        }
+
+        #endregion
+
+        #region Surface Section
+
+        private void DrawBaseSection(Material material)
+        {
+            DrawSection(
+                "Color & Surface",
                 ref baseFoldout,
                 null,
                 () =>
                 {
+                    EditorGUILayout.LabelField("Base Color", EditorStyles.boldLabel);
                     DrawTextureWithColor(
                         "_BaseMap",
                         "_BaseColor",
-                        new GUIContent(
-                            "Color",
-                            "Main texture multiplied by the base color tint."
-                        )
+                        new GUIContent("Color", "Main texture multiplied by the base color tint.")
                     );
 
-                    DrawProperty(
-                        "_NormalMap",
-                        new GUIContent(
-                            "Normal Map",
-                            "Optional tangent-space normal map for surface detail."
-                        )
+                    DrawSeparator();
+
+                    DrawInlineFeatureButton(
+                        material,
+                        "_HueShiftEnabled",
+                        "_PEAR_HUE_SHIFT_ON",
+                        "Texture Hue Shift",
+                        () =>
+                        {
+                            EditorGUI.indentLevel++;
+                            DrawProperty("_HueShiftMask", new GUIContent("Hue Shift Mask", "Grayscale mask controlling where hue shifting appears. White means full effect, black means no effect."));
+                            DrawProperty("_HueShift", new GUIContent("Hue Shift", "Rotates the base texture hue in degrees before the base color tint."));
+                            DrawProperty("_HueSaturation", new GUIContent("Saturation", "Multiplies the base texture saturation inside the hue-shifted area."));
+                            DrawProperty("_HueBrightness", new GUIContent("Brightness", "Multiplies the base texture brightness inside the hue-shifted area."));
+                            EditorGUI.indentLevel--;
+                        }
                     );
 
-                    DrawProperty(
-                        "_NormalStrength",
-                        new GUIContent(
-                            "Normal Strength",
-                            "Controls how strongly the normal map affects lighting."
-                        )
-                    );
+                    DrawSeparator();
+
+                    EditorGUILayout.LabelField("Normals", EditorStyles.boldLabel);
+                    DrawProperty("_NormalMap", new GUIContent("Normal Map", "Optional tangent-space normal map for surface detail."));
+                    DrawProperty("_NormalStrength", new GUIContent("Normal Strength", "Controls how strongly the normal map affects lighting."));
                 }
             );
         }
+
+        #endregion
+
+        #region Toon Lighting Section
 
         private void DrawToonLightingSection(Material material)
         {
@@ -168,29 +232,10 @@ namespace Pear.Editor
                 null,
                 () =>
                 {
-                    DrawProperty(
-                        "_ToonThreshold",
-                        new GUIContent(
-                            "Light Threshold",
-                            "Controls where the material transitions into the fully lit band."
-                        )
-                    );
+                    bool midtoneEnabled = IsPropertyEnabled("_MidtoneEnabled");
 
-                    DrawProperty(
-                        "_ToonSoftness",
-                        new GUIContent(
-                            "Light Softness",
-                            "Controls how sharp or soft the transition into the lit band is."
-                        )
-                    );
-
-                    DrawProperty(
-                        "_ShadowColor",
-                        new GUIContent(
-                            "Shadow Color",
-                            "Tint used for the darkest stylized shadow band."
-                        )
-                    );
+                    EditorGUILayout.LabelField("Shadow Response", EditorStyles.boldLabel);
+                    DrawProperty("_ShadowColor", new GUIContent("Shadow Color", "Tint used for the darkest stylized shadow band."));
 
                     DrawSeparator();
 
@@ -202,34 +247,16 @@ namespace Pear.Editor
                         () =>
                         {
                             EditorGUI.indentLevel++;
-
-                            DrawProperty(
-                                "_MidtoneColor",
-                                new GUIContent(
-                                    "Midtone Color",
-                                    "Tint used for the middle lighting band."
-                                )
-                            );
-
-                            DrawProperty(
-                                "_MidtoneThreshold",
-                                new GUIContent(
-                                    "Midtone Threshold",
-                                    "Controls where the material transitions from shadow to midtone."
-                                )
-                            );
-
-                            DrawProperty(
-                                "_MidtoneSoftness",
-                                new GUIContent(
-                                    "Midtone Softness",
-                                    "Controls how sharp or soft the transition into the midtone band is."
-                                )
-                            );
-
+                            DrawProperty("_MidtoneColor", new GUIContent("Midtone Color", "Tint used for the middle lighting band."));
+                            DrawThreeBandControls();
                             EditorGUI.indentLevel--;
                         }
                     );
+
+                    if (!midtoneEnabled)
+                    {
+                        DrawTwoBandControls();
+                    }
 
                     DrawInlineFeatureButton(
                         material,
@@ -239,186 +266,214 @@ namespace Pear.Editor
                         () =>
                         {
                             EditorGUI.indentLevel++;
-
-                            DrawProperty(
-                                "_RampTex",
-                                new GUIContent(
-                                    "Ramp",
-                                    "Horizontal ramp texture. Left side is shadow, right side is light."
-                                )
-                            );
-
-                            DrawProperty(
-                                "_RampStrength",
-                                new GUIContent(
-                                    "Ramp Strength",
-                                    "Blends between manual lighting and the ramp texture."
-                                )
-                            );
-
+                            DrawProperty("_RampTex", new GUIContent("Ramp", "Horizontal ramp texture. Left side is shadow, right side is light."));
+                            DrawProperty("_RampStrength", new GUIContent("Ramp Strength", "Blends between manual lighting and the ramp texture."));
+                            EditorGUILayout.HelpBox("Ramp Texture visually overrides the manual band controls. Use it for custom multi-step shading.", MessageType.None);
                             EditorGUI.indentLevel--;
                         }
                     );
 
                     DrawSeparator();
 
-                    DrawProperty(
-                        "_LightIntensity",
-                        new GUIContent(
-                            "Light Intensity",
-                            "Multiplier for the direct toon light contribution."
-                        )
+                    EditorGUILayout.LabelField("Light Mixing", EditorStyles.boldLabel);
+                    DrawProperty("_LightIntensity", new GUIContent("Light Intensity", "Multiplier for the direct toon light contribution."));
+                    DrawProperty("_AmbientColor", new GUIContent("Ambient Color", "Simple fill color added to the final result."));
+                }
+            );
+        }
+
+        private void DrawTwoBandControls()
+        {
+            MaterialProperty lightThreshold = FindProperty("_ToonThreshold", properties, false);
+            MaterialProperty lightSoftness = FindProperty("_ToonSoftness", properties, false);
+
+            if (lightThreshold == null || lightSoftness == null)
+            {
+                DrawMissingPropertyWarning("Toon band controls");
+                return;
+            }
+
+            EditorGUILayout.Space(4);
+            EditorGUILayout.LabelField("Band Controls", EditorStyles.boldLabel);
+
+            lightThreshold.floatValue = EditorGUILayout.Slider(
+                new GUIContent("Shadow Size", "Controls how much of the model is in shadow. Higher values create a larger shadow area."),
+                lightThreshold.floatValue,
+                0f,
+                1f
+            );
+
+            lightSoftness.floatValue = EditorGUILayout.Slider(
+                new GUIContent("Edge Softness", "Controls how soft the transition is between shadow and light. Low values create hard cel shading."),
+                lightSoftness.floatValue,
+                0.001f,
+                0.25f
+            );
+        }
+
+        private void DrawThreeBandControls()
+        {
+            MaterialProperty midtoneThreshold = FindProperty("_MidtoneThreshold", properties, false);
+            MaterialProperty lightThreshold = FindProperty("_ToonThreshold", properties, false);
+            MaterialProperty midtoneSoftness = FindProperty("_MidtoneSoftness", properties, false);
+            MaterialProperty lightSoftness = FindProperty("_ToonSoftness", properties, false);
+
+            if (midtoneThreshold == null || lightThreshold == null || midtoneSoftness == null || lightSoftness == null)
+            {
+                DrawMissingPropertyWarning("Midtone band controls");
+                return;
+            }
+
+            EditorGUILayout.Space(4);
+            EditorGUILayout.LabelField("Band Positions", EditorStyles.boldLabel);
+
+            float shadowToMidtone = midtoneThreshold.floatValue;
+            float midtoneToLight = lightThreshold.floatValue;
+
+            EditorGUILayout.MinMaxSlider(
+                new GUIContent("Shadow / Midtone / Light", "Left handle controls where shadow becomes midtone. Right handle controls where midtone becomes full light."),
+                ref shadowToMidtone,
+                ref midtoneToLight,
+                0f,
+                1f
+            );
+
+            const float minimumBandGap = 0.03f;
+
+            shadowToMidtone = Mathf.Clamp(shadowToMidtone, 0f, 1f - minimumBandGap);
+            midtoneToLight = Mathf.Clamp(midtoneToLight, shadowToMidtone + minimumBandGap, 1f);
+
+            midtoneThreshold.floatValue = shadowToMidtone;
+            lightThreshold.floatValue = midtoneToLight;
+
+            EditorGUI.indentLevel++;
+
+            midtoneThreshold.floatValue = EditorGUILayout.Slider(
+                new GUIContent("Shadow To Midtone", "Where the darkest shadow band transitions into the midtone band."),
+                midtoneThreshold.floatValue,
+                0f,
+                lightThreshold.floatValue - minimumBandGap
+            );
+
+            lightThreshold.floatValue = EditorGUILayout.Slider(
+                new GUIContent("Midtone To Light", "Where the midtone band transitions into the fully lit band."),
+                lightThreshold.floatValue,
+                midtoneThreshold.floatValue + minimumBandGap,
+                1f
+            );
+
+            EditorGUI.indentLevel--;
+
+            float sharedSoftness = Mathf.Max(midtoneSoftness.floatValue, lightSoftness.floatValue);
+
+            sharedSoftness = EditorGUILayout.Slider(
+                new GUIContent("Edge Softness", "Controls how soft both band transitions are. Low values create hard cel-shaded bands."),
+                sharedSoftness,
+                0.001f,
+                0.25f
+            );
+
+            midtoneSoftness.floatValue = sharedSoftness;
+            lightSoftness.floatValue = sharedSoftness;
+        }
+
+        #endregion
+
+        #region Stylized Effects Section
+
+        private void DrawStylizedEffectsSection(Material material)
+        {
+            DrawSection(
+                "Stylized Effects",
+                ref stylizedEffectsFoldout,
+                null,
+                () =>
+                {
+                    DrawInlineFeatureButton(
+                        material,
+                        "_RimEnabled",
+                        "_PEAR_RIM_ON",
+                        "Rim Light",
+                        () =>
+                        {
+                            EditorGUI.indentLevel++;
+                            DrawProperty("_RimColor", new GUIContent("Rim Color", "Color added to the edges of the object."));
+                            DrawProperty("_RimPower", new GUIContent("Rim Power", "Controls rim width. Lower values create a wider rim."));
+                            DrawProperty("_RimIntensity", new GUIContent("Rim Intensity", "Controls how bright the rim light is."));
+                            EditorGUI.indentLevel--;
+                        }
                     );
 
-                    DrawProperty(
-                        "_AmbientColor",
-                        new GUIContent(
-                            "Ambient Color",
-                            "Simple fill color added to the final result."
-                        )
+                    DrawInlineFeatureButton(
+                        material,
+                        "_EmissionEnabled",
+                        "_PEAR_EMISSION_ON",
+                        "Emission",
+                        () =>
+                        {
+                            EditorGUI.indentLevel++;
+                            DrawProperty("_EmissionColor", new GUIContent("Emission Color", "Color added on top of the shaded material."));
+                            DrawProperty("_EmissionMask", new GUIContent("Emission Mask", "Grayscale texture controlling where emission appears."));
+                            DrawProperty("_EmissionIntensity", new GUIContent("Emission Intensity", "Brightness multiplier for the emission effect."));
+                            DrawProperty("_EmissionPulseSpeed", new GUIContent("Pulse Speed", "How fast the emission pulses. Set to 0 to disable movement."));
+                            DrawProperty("_EmissionPulseAmount", new GUIContent("Pulse Amount", "How strongly the emission fades in and out."));
+                            EditorGUI.indentLevel--;
+                        }
+                    );
+
+                    DrawInlineFeatureButton(
+                        material,
+                        "_MatcapEnabled",
+                        "_PEAR_MATCAP_ON",
+                        "Matcap Reflection",
+                        () =>
+                        {
+                            EditorGUI.indentLevel++;
+                            DrawProperty("_MatcapTex", new GUIContent("Matcap Texture", "Spherical reflection texture sampled using the view-space normal."));
+                            DrawProperty("_MatcapColor", new GUIContent("Matcap Color", "Tint applied to the matcap texture."));
+                            DrawProperty("_MatcapIntensity", new GUIContent("Matcap Intensity", "Brightness multiplier for the matcap layer."));
+                            DrawProperty("_MatcapBlend", new GUIContent("Matcap Blend", "How strongly the matcap layer is blended into the final result."));
+                            EditorGUI.indentLevel--;
+                        }
+                    );
+
+                    DrawInlineFeatureButton(
+                        material,
+                        "_ShimmerEnabled",
+                        "_PEAR_SHIMMER_ON",
+                        "Glitter Shimmer",
+                        () =>
+                        {
+                            EditorGUI.indentLevel++;
+                            DrawProperty("_ShimmerColor", new GUIContent("Shimmer Color", "Color of the tiny sparkle hits."));
+                            DrawProperty("_ShimmerIntensity", new GUIContent("Shimmer Intensity", "Brightness of the shimmer sparkles."));
+                            DrawProperty("_ShimmerScale", new GUIContent("Sparkle Density", "Higher values create smaller, denser sparkles."));
+                            DrawProperty("_ShimmerSpeed", new GUIContent("Flicker Speed", "How quickly the sparkle pattern changes."));
+                            DrawProperty("_ShimmerThreshold", new GUIContent("Sparkle Rarity", "Higher values create fewer sparkles."));
+                            DrawProperty("_ShimmerViewStrength", new GUIContent("View Angle Boost", "Makes sparkles stronger near grazing angles."));
+                            EditorGUI.indentLevel--;
+                        }
                     );
                 }
             );
         }
 
-        private void DrawRimLightSection(Material material)
+        #endregion
+
+        #region Outline and Advanced Sections
+
+        private void DrawOutlineSection(Material material)
         {
             DrawSection(
-                "Rim Light",
-                ref rimFoldout,
-                new FeatureToggle("_RimEnabled", "_PEAR_RIM_ON"),
+                "Outline",
+                ref outlineFoldout,
+                new FeatureToggle("_OutlineEnabled", "_PEAR_OUTLINE_ON"),
                 () =>
                 {
                     EditorGUI.indentLevel++;
-
-                    DrawProperty(
-                        "_RimColor",
-                        new GUIContent(
-                            "Rim Color",
-                            "Color added to the edges of the object."
-                        )
-                    );
-
-                    DrawProperty(
-                        "_RimPower",
-                        new GUIContent(
-                            "Rim Power",
-                            "Controls rim width. Lower values create a wider rim."
-                        )
-                    );
-
-                    DrawProperty(
-                        "_RimIntensity",
-                        new GUIContent(
-                            "Rim Intensity",
-                            "Controls how bright the rim light is."
-                        )
-                    );
-
-                    EditorGUI.indentLevel--;
-                },
-                material
-            );
-        }
-
-        private void DrawEmissionSection(Material material)
-        {
-            DrawSection(
-                "Emission",
-                ref emissionFoldout,
-                new FeatureToggle("_EmissionEnabled", "_PEAR_EMISSION_ON"),
-                () =>
-                {
-                    EditorGUI.indentLevel++;
-
-                    DrawProperty(
-                        "_EmissionColor",
-                        new GUIContent(
-                            "Emission Color",
-                            "Color added on top of the shaded material."
-                        )
-                    );
-
-                    DrawProperty(
-                        "_EmissionMask",
-                        new GUIContent(
-                            "Emission Mask",
-                            "Grayscale texture controlling where emission appears."
-                        )
-                    );
-
-                    DrawProperty(
-                        "_EmissionIntensity",
-                        new GUIContent(
-                            "Emission Intensity",
-                            "Brightness multiplier for the emission effect."
-                        )
-                    );
-
-                    DrawProperty(
-                        "_EmissionPulseSpeed",
-                        new GUIContent(
-                            "Pulse Speed",
-                            "How fast the emission pulses. Set to 0 to disable movement."
-                        )
-                    );
-
-                    DrawProperty(
-                        "_EmissionPulseAmount",
-                        new GUIContent(
-                            "Pulse Amount",
-                            "How strongly the emission fades in and out."
-                        )
-                    );
-
-                    EditorGUI.indentLevel--;
-                },
-                material
-            );
-        }
-
-        private void DrawMatcapSection(Material material)
-        {
-            DrawSection(
-                "Matcap Reflection",
-                ref matcapFoldout,
-                new FeatureToggle("_MatcapEnabled", "_PEAR_MATCAP_ON"),
-                () =>
-                {
-                    EditorGUI.indentLevel++;
-
-                    DrawProperty(
-                        "_MatcapTex",
-                        new GUIContent(
-                            "Matcap Texture",
-                            "Spherical reflection texture sampled using the view-space normal."
-                        )
-                    );
-
-                    DrawProperty(
-                        "_MatcapColor",
-                        new GUIContent(
-                            "Matcap Color",
-                            "Tint applied to the matcap texture."
-                        )
-                    );
-
-                    DrawProperty(
-                        "_MatcapIntensity",
-                        new GUIContent(
-                            "Matcap Intensity",
-                            "Brightness multiplier for the matcap layer."
-                        )
-                    );
-
-                    DrawProperty(
-                        "_MatcapBlend",
-                        new GUIContent(
-                            "Matcap Blend",
-                            "How strongly the matcap layer is blended into the final result."
-                        )
-                    );
-
+                    DrawProperty("_OutlineColor", new GUIContent("Outline Color", "Color of the inverted hull outline."));
+                    DrawProperty("_OutlineWidth", new GUIContent("Outline Width", "Thickness of the outline in world units."));
+                    DrawProperty("_OutlineDepthOffset", new GUIContent("Depth Offset", "Small depth push/pull to reduce z-fighting. Leave at 0 unless needed."));
                     EditorGUI.indentLevel--;
                 },
                 material
@@ -451,13 +506,11 @@ namespace Pear.Editor
             );
         }
 
-        private void DrawSection(
-            string title,
-            ref bool foldout,
-            FeatureToggle featureToggle,
-            System.Action drawContent,
-            Material material = null
-        )
+        #endregion
+
+        #region Section Drawing
+
+        private void DrawSection(string title, ref bool foldout, FeatureToggle featureToggle, System.Action drawContent, Material material = null)
         {
             bool hasToggle = featureToggle != null;
             bool enabled = !hasToggle || IsPropertyEnabled(featureToggle.PropertyName);
@@ -497,12 +550,7 @@ namespace Pear.Editor
             cursorX += 20f;
 
             float rightPadding = hasToggle ? 70f : 12f;
-            Rect labelRect = new Rect(
-                cursorX,
-                headerRect.y + 3,
-                headerRect.width - (cursorX - headerRect.x) - rightPadding,
-                18
-            );
+            Rect labelRect = new Rect(cursorX, headerRect.y + 3, headerRect.width - (cursorX - headerRect.x) - rightPadding, 18);
 
             GUIStyle labelStyle = new GUIStyle(EditorStyles.boldLabel)
             {
@@ -540,16 +588,26 @@ namespace Pear.Editor
                 return;
             }
 
-            if (hasToggle && !enabled)
-            {
-                return;
-            }
-
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             EditorGUILayout.Space(4);
-            EditorGUI.indentLevel++;
-            drawContent?.Invoke();
-            EditorGUI.indentLevel--;
+
+            if (hasToggle && !enabled)
+            {
+                EditorGUILayout.HelpBox("This feature is currently disabled. Enable it from the checkbox in the section header to activate the effect.", MessageType.None);
+
+                EditorGUI.BeginDisabledGroup(true);
+                EditorGUI.indentLevel++;
+                drawContent?.Invoke();
+                EditorGUI.indentLevel--;
+                EditorGUI.EndDisabledGroup();
+            }
+            else
+            {
+                EditorGUI.indentLevel++;
+                drawContent?.Invoke();
+                EditorGUI.indentLevel--;
+            }
+
             EditorGUILayout.Space(4);
             EditorGUILayout.EndVertical();
         }
@@ -564,7 +622,6 @@ namespace Pear.Editor
             }
 
             EditorGUI.BeginChangeCheck();
-
             bool enabled = property.floatValue > 0.5f;
             enabled = EditorGUI.Toggle(rect, enabled);
 
@@ -575,13 +632,7 @@ namespace Pear.Editor
             }
         }
 
-        private void DrawInlineFeatureButton(
-            Material material,
-            string propertyName,
-            string keyword,
-            string label,
-            System.Action drawContent
-        )
+        private void DrawInlineFeatureButton(Material material, string propertyName, string keyword, string label, System.Action drawContent)
         {
             MaterialProperty property = FindProperty(propertyName, properties, false);
 
@@ -608,9 +659,7 @@ namespace Pear.Editor
                 ? Color.Lerp(Color.white, accentColor, 0.45f)
                 : new Color(0.75f, 0.75f, 0.75f, 1f);
 
-            string buttonText = enabled
-                ? $"{label}        ON"
-                : $"{label}        OFF";
+            string buttonText = enabled ? $"{label}        ON" : $"{label}        OFF";
 
             if (GUILayout.Button(buttonText, buttonStyle, GUILayout.Height(26)))
             {
@@ -629,13 +678,15 @@ namespace Pear.Editor
             }
 
             EditorGUILayout.Space(4);
-
             EditorGUI.indentLevel++;
             drawContent?.Invoke();
             EditorGUI.indentLevel--;
-
             EditorGUILayout.Space(4);
         }
+
+        #endregion
+
+        #region Drawing Helpers
 
         private bool IsPropertyEnabled(string propertyName)
         {
@@ -676,10 +727,8 @@ namespace Pear.Editor
         private void DrawSeparator()
         {
             EditorGUILayout.Space(5);
-
             Rect rect = EditorGUILayout.GetControlRect(false, 1);
             EditorGUI.DrawRect(rect, new Color(0.32f, 0.32f, 0.32f, 1f));
-
             EditorGUILayout.Space(5);
         }
 
@@ -704,20 +753,24 @@ namespace Pear.Editor
 
         private void SyncAllKeywords(Material material)
         {
+            SetKeyword(material, "_PEAR_HUE_SHIFT_ON", IsPropertyEnabled("_HueShiftEnabled"));
             SetKeyword(material, "_PEAR_MIDTONE_ON", IsPropertyEnabled("_MidtoneEnabled"));
             SetKeyword(material, "_PEAR_RAMP_ON", IsPropertyEnabled("_RampEnabled"));
             SetKeyword(material, "_PEAR_RIM_ON", IsPropertyEnabled("_RimEnabled"));
             SetKeyword(material, "_PEAR_EMISSION_ON", IsPropertyEnabled("_EmissionEnabled"));
             SetKeyword(material, "_PEAR_MATCAP_ON", IsPropertyEnabled("_MatcapEnabled"));
+            SetKeyword(material, "_PEAR_SHIMMER_ON", IsPropertyEnabled("_ShimmerEnabled"));
+            SetKeyword(material, "_PEAR_OUTLINE_ON", IsPropertyEnabled("_OutlineEnabled"));
         }
 
         private void DrawMissingPropertyWarning(string propertyName)
         {
-            EditorGUILayout.HelpBox(
-                "Missing shader property: " + propertyName,
-                MessageType.Warning
-            );
+            EditorGUILayout.HelpBox("Missing shader property: " + propertyName, MessageType.Warning);
         }
+
+        #endregion
+
+        #region Editor Preferences
 
         private static void LoadAccentColor()
         {
@@ -768,6 +821,10 @@ namespace Pear.Editor
             return new GUIContent("⋯", "UI Settings");
         }
 
+        #endregion
+
+        #region Data Types
+
         private class FeatureToggle
         {
             public readonly string PropertyName;
@@ -779,5 +836,7 @@ namespace Pear.Editor
                 Keyword = keyword;
             }
         }
+
+        #endregion
     }
 }
