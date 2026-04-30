@@ -1,4 +1,4 @@
-<h1 align="center">🍐 Pear Shader</h1>
+<h1 align="center">Pear 🍐 Shader</h1>
 
 <p align="center">
   A stylized Unity URP toon shader toolkit with pear-themed presets and artist-friendly controls.
