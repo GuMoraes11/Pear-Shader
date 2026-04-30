@@ -4,6 +4,10 @@
   Stylized Unity URP toon shader toolkit with user-friendly controls.
 </p>
 
+<p align="center">
+  <a href="https://gumoraes11.github.io/Pear-Shader/">View Website</a>
+</p>
+
 ---
 
 ## ✨ Overview
