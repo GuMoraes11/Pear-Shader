@@ -6,15 +6,6 @@
 
 ---
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Unity-URP-000000?style=for-the-badge&logo=unity" />
-  <img src="https://img.shields.io/badge/Shader-HLSL-green?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Status-In%20Development-9bd744?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" />
-</p>
-
----
-
 ## ✨ Overview
 
 **Pear** is a stylized shader toolkit built in Unity URP, designed to give artists clean, intuitive control over toon shading and stylized rendering.
