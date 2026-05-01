@@ -1,0 +1,183 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Pear_URP_Water
+  m_Shader: {fileID: 4800000, guid: 4d5e1af2f98cc98459ed67c45aae2377, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _PEAR_WATER_CONTACT_FOAM_ON
+  - _PEAR_WATER_FLOW_ON
+  - _PEAR_WATER_FOAM_ON
+  - _PEAR_WATER_RIM_ON
+  - _PEAR_WATER_SPARKLE_ON
+  - _PEAR_WATER_SUBSURFACE_ON
+  - _PEAR_WATER_VERTEX_WAVE_ON
+  m_InvalidKeywords:
+  - _PEAR_RIM_ON
+  - _PEAR_SHIMMER_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FoamNoise:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FoamNoiseTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HueShiftMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MatcapTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RampTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WaveNormalA:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WaveNormalB:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ContactFoamDistance: 0.32
+    - _ContactFoamEnabled: 1
+    - _ContactFoamNoiseAmount: 0.52
+    - _ContactFoamNoiseScale: 8
+    - _ContactFoamSoftness: 0.22
+    - _ContactFoamStrength: 0.72
+    - _EmissionEnabled: 0
+    - _EmissionIntensity: 0
+    - _EmissionPulseAmount: 0
+    - _EmissionPulseSpeed: 0
+    - _FlowDistortion: 0.88
+    - _FlowEnabled: 1
+    - _FlowIntensity: 0.42
+    - _FlowScale: 3.35
+    - _FlowSpeed: 0.55
+    - _FlowThickness: 0.3
+    - _FoamAmount: 0.08
+    - _FoamEnabled: 1
+    - _FoamScale: 8
+    - _FoamSoftness: 0.2
+    - _FoamSpeed: 0.65
+    - _FoamTextureBlend: 0
+    - _FoamThreshold: 0.88
+    - _HueBrightness: 1
+    - _HueSaturation: 1
+    - _HueShift: 0
+    - _HueShiftEnabled: 0
+    - _HueShiftSpeed: 0
+    - _LightIntensity: 1
+    - _MatcapBlend: 0
+    - _MatcapEnabled: 0
+    - _MatcapIntensity: 0
+    - _MidtoneEnabled: 0
+    - _MidtoneSoftness: 0.001
+    - _MidtoneThreshold: 0.32
+    - _NormalMapEnabled: 0
+    - _NormalMapScale: 1
+    - _NormalMapStrength: 0.35
+    - _NormalStrength: 1
+    - _Opacity: 0.62
+    - _OutlineDepthOffset: 0
+    - _OutlineEnabled: 0
+    - _OutlineWidth: 0.012
+    - _ProceduralWaveScale: 7.2
+    - _ProceduralWaveSpeed: 0.72
+    - _ProceduralWaveStrength: 0.532
+    - _RampEnabled: 0
+    - _RampStrength: 1
+    - _RimEnabled: 1
+    - _RimIntensity: 0.72
+    - _RimPower: 3.4
+    - _ShimmerEnabled: 1
+    - _ShimmerIntensity: 5
+    - _ShimmerScale: 150
+    - _ShimmerSpeed: 20
+    - _ShimmerThreshold: 0.995
+    - _ShimmerViewStrength: 1
+    - _SparkleAmount: 0.32
+    - _SparkleEnabled: 1
+    - _SparkleIntensity: 1.1
+    - _SparkleRandomness: 0.85
+    - _SparkleScale: 90
+    - _SparkleSize: 0.085
+    - _SparkleSpeed: 0.8
+    - _SparkleThreshold: 0.985
+    - _SparkleViewStrength: 0.85
+    - _SubsurfaceDepthDistance: 1.2
+    - _SubsurfaceDepthStrength: 0.42
+    - _SubsurfaceEnabled: 1
+    - _SubsurfaceLightStrength: 0.42
+    - _SubsurfaceStrength: 0.36
+    - _SubsurfaceViewPower: 2.1
+    - _SurfaceTintStrength: 1
+    - _ToonSoftness: 0.24
+    - _ToonThreshold: 0.5
+    - _TopSurfaceOnly: 1
+    - _VertexWaveAmount: 0.0688
+    - _VertexWaveEnabled: 1
+    - _VertexWaveScale: 2.53
+    - _VertexWaveSpeed: 2.93
+    - _VertexWaveTopMaskSharpness: 0.15
+    - _VertexWaveTopOnly: 1
+    - _WaveScale: 1.15
+    - _WaveStrength: 0.08
+    m_Colors:
+    - _AmbientColor: {r: 0.12, g: 0.28, b: 0.22, a: 1}
+    - _BaseColor: {r: 0.35, g: 0.74, b: 0.58, a: 0.6}
+    - _ContactFoamColor: {r: 0.86, g: 1, b: 0.62, a: 1}
+    - _ContactFoamNoiseSpeed: {r: 0.036, g: 0.022, b: 0, a: 0}
+    - _EmissionColor: {r: 0, g: 1, b: 1, a: 1}
+    - _FlowColor: {r: 0.82, g: 1, b: 0.68, a: 1}
+    - _FoamColor: {r: 0.84, g: 1, b: 0.68, a: 1}
+    - _FoamSpeed: {r: 0.03, g: 0.02, b: 0, a: 0}
+    - _MatcapColor: {r: 1, g: 1, b: 1, a: 1}
+    - _MidtoneColor: {r: 0.82, g: 0.91, b: 0.58, a: 1}
+    - _OutlineColor: {r: 0.18, g: 0.2, b: 0.14, a: 1}
+    - _ProceduralWaveDirectionA: {r: 1, g: 0.35, b: 0, a: 0}
+    - _ProceduralWaveDirectionB: {r: -0.45, g: 1, b: 0, a: 0}
+    - _RimColor: {r: 0.82, g: 1, b: 0.62, a: 1}
+    - _ShadowColor: {r: 0.08, g: 0.23, b: 0.18, a: 1}
+    - _ShimmerColor: {r: 0.95, g: 1, b: 0.72, a: 1}
+    - _SparkleColor: {r: 0.9, g: 1, b: 0.62, a: 1}
+    - _SubsurfaceColor: {r: 0.66, g: 1, b: 0.58, a: 1}
+    - _WaveSpeedA: {r: 0.03, g: 0.018, b: 0, a: 0}
+    - _WaveSpeedB: {r: -0.022, g: 0.026, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
