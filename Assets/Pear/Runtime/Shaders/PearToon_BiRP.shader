@@ -7,6 +7,7 @@ Shader "Pear/BiRP/Toon"
 
         [Toggle(_PEAR_HUE_SHIFT_ON)] _HueShiftEnabled ("Enable Texture Hue Shift", Float) = 0
         _HueShift ("Hue Shift", Range(-180, 180)) = 0
+        _HueShiftSpeed ("Hue Shift Speed", Range(-360, 360)) = 0
         _HueSaturation ("Saturation", Range(0, 2)) = 1
         _HueBrightness ("Brightness", Range(0, 2)) = 1
         _HueShiftMask ("Hue Shift Mask", 2D) = "white" {}
@@ -105,6 +106,7 @@ Shader "Pear/BiRP/Toon"
 
             float _HueShiftEnabled;
             float _HueShift;
+            float _HueShiftSpeed;
             float _HueSaturation;
             float _HueBrightness;
             sampler2D _HueShiftMask;
@@ -211,7 +213,8 @@ Shader "Pear/BiRP/Toon"
                     fixed mask = tex2D(_HueShiftMask, uv).r;
                     float3 hsv = PearRgbToHsv(saturate(color));
 
-                    hsv.x = frac(hsv.x + (_HueShift / 360.0) * mask);
+                    float animatedHue = _HueShift + (_Time.y * _HueShiftSpeed);
+                    hsv.x = frac(hsv.x + (animatedHue / 360.0) * mask);
                     hsv.y = saturate(hsv.y * lerp(1.0, _HueSaturation, mask));
                     hsv.z = saturate(hsv.z * lerp(1.0, _HueBrightness, mask));
 
@@ -265,8 +268,8 @@ Shader "Pear/BiRP/Toon"
             fixed4 Frag(Varyings input) : SV_Target
             {
                 fixed4 baseTexture = tex2D(_BaseMap, input.uv);
-                fixed3 shiftedBaseColor = ApplyTextureHueShift(baseTexture.rgb, input.uv);
-                fixed3 albedo = shiftedBaseColor * _BaseColor.rgb;
+                fixed3 albedo = baseTexture.rgb * _BaseColor.rgb;
+                albedo = ApplyTextureHueShift(albedo, input.uv);
 
                 fixed3 normalWS = GetNormalWS(input);
                 fixed3 viewDirWS = normalize(input.viewDirWS);

@@ -151,17 +151,26 @@ namespace Pear.Editor
 
                     EditorGUILayout.BeginHorizontal();
 
-                    if (GUILayout.Button("Soft Anime", GUILayout.Height(26)))
+                    if (GUILayout.Button("Pear", GUILayout.Height(26)))
+                    {
+                        PearPresetApplier.ApplyDefaultPear(material);
+                    }
+
+                    if (GUILayout.Button("Cozy", GUILayout.Height(26)))
                     {
                         PearPresetApplier.ApplySoftAnime(material);
                     }
 
-                    if (GUILayout.Button("Cel Shadow", GUILayout.Height(26)))
+                    EditorGUILayout.EndHorizontal();
+
+                    EditorGUILayout.BeginHorizontal();
+
+                    if (GUILayout.Button("Bold", GUILayout.Height(26)))
                     {
                         PearPresetApplier.ApplyCelShadow(material);
                     }
 
-                    if (GUILayout.Button("Glossy Toy", GUILayout.Height(26)))
+                    if (GUILayout.Button("Gloss", GUILayout.Height(26)))
                     {
                         PearPresetApplier.ApplyGlossyToy(material);
                     }
@@ -204,7 +213,8 @@ namespace Pear.Editor
                         {
                             EditorGUI.indentLevel++;
                             DrawProperty("_HueShiftMask", new GUIContent("Hue Shift Mask", "Grayscale mask controlling where hue shifting appears. White means full effect, black means no effect."));
-                            DrawProperty("_HueShift", new GUIContent("Hue Shift", "Rotates the base texture hue in degrees before the base color tint."));
+                            DrawProperty("_HueShift", new GUIContent("Hue Shift", "Rotates the material hue in degrees."));
+                            DrawProperty("_HueShiftSpeed", new GUIContent("Hue Shift Speed", "Animates hue over time in degrees per second. Set to 0 for a static hue."));
                             DrawProperty("_HueSaturation", new GUIContent("Saturation", "Multiplies the base texture saturation inside the hue-shifted area."));
                             DrawProperty("_HueBrightness", new GUIContent("Brightness", "Multiplies the base texture brightness inside the hue-shifted area."));
                             EditorGUI.indentLevel--;
@@ -498,12 +508,112 @@ namespace Pear.Editor
 
                     EditorGUILayout.Space(4);
 
-                    if (GUILayout.Button("Reset Pear Keywords"))
+                    if (GUILayout.Button(new GUIContent("Reset Pear Keywords", "Rebuilds all Pear shader keywords from the material toggle values.")))
                     {
                         SyncAllKeywords(material);
                     }
+
+                    EditorGUILayout.Space(8);
+                    DrawMaterialValidation(material);
                 }
             );
+        }
+
+        #endregion
+
+
+        #region Material Validation
+
+        private void DrawMaterialValidation(Material material)
+        {
+            if (material == null)
+            {
+                return;
+            }
+
+            EditorGUILayout.LabelField("Material Validation", EditorStyles.boldLabel);
+
+            bool hasWarnings = false;
+
+            if (IsMaterialFeatureEnabled(material, "_RampEnabled"))
+            {
+                DrawValidationInfo("Ramp Texture is enabled. It visually takes over the lighting bands, so manual band values may feel less obvious while the ramp is active.");
+
+                if (HasProperty(material, "_RampTex") && material.GetTexture("_RampTex") == null)
+                {
+                    DrawValidationWarning("Ramp Texture is enabled, but no ramp texture is assigned.");
+                    hasWarnings = true;
+                }
+            }
+
+            if (IsMaterialFeatureEnabled(material, "_MatcapEnabled") && HasProperty(material, "_MatcapTex") && material.GetTexture("_MatcapTex") == null)
+            {
+                DrawValidationWarning("Matcap Reflection is enabled, but no matcap texture is assigned.");
+                hasWarnings = true;
+            }
+
+            if (IsMaterialFeatureEnabled(material, "_EmissionEnabled") && GetMaterialFloat(material, "_EmissionIntensity") <= 0.001f)
+            {
+                DrawValidationWarning("Emission is enabled, but Emission Intensity is 0. The feature is active but invisible.");
+                hasWarnings = true;
+            }
+
+            if (IsMaterialFeatureEnabled(material, "_ShimmerEnabled"))
+            {
+                DrawValidationInfo("Glitter Shimmer uses extra math and animated sparkle noise. Keep it tasteful for low-end targets.");
+
+                if (GetMaterialFloat(material, "_ShimmerIntensity") <= 0.001f)
+                {
+                    DrawValidationWarning("Glitter Shimmer is enabled, but Shimmer Intensity is 0. The feature is active but invisible.");
+                    hasWarnings = true;
+                }
+            }
+
+            if (IsMaterialFeatureEnabled(material, "_OutlineEnabled"))
+            {
+                DrawValidationInfo("Outline uses an additional inverted-hull pass. This is normal, but it is not free.");
+
+                if (GetMaterialFloat(material, "_OutlineWidth") <= 0.0001f)
+                {
+                    DrawValidationWarning("Outline is enabled, but Outline Width is 0. The pass is active but invisible.");
+                    hasWarnings = true;
+                }
+            }
+
+            if (HasProperty(material, "_NormalMap") && material.GetTexture("_NormalMap") == null && GetMaterialFloat(material, "_NormalStrength") > 0.001f)
+            {
+                DrawValidationInfo("Normal Strength is above 0, but no normal map is assigned. This is fine, just not doing anything yet.");
+            }
+
+            if (!hasWarnings)
+            {
+                EditorGUILayout.HelpBox("No obvious Pear material issues found.", MessageType.Info);
+            }
+        }
+
+        private static void DrawValidationWarning(string message)
+        {
+            EditorGUILayout.HelpBox(message, MessageType.Warning);
+        }
+
+        private static void DrawValidationInfo(string message)
+        {
+            EditorGUILayout.HelpBox(message, MessageType.None);
+        }
+
+        private static bool HasProperty(Material material, string propertyName)
+        {
+            return material != null && material.HasProperty(propertyName);
+        }
+
+        private static bool IsMaterialFeatureEnabled(Material material, string propertyName)
+        {
+            return HasProperty(material, propertyName) && material.GetFloat(propertyName) > 0.5f;
+        }
+
+        private static float GetMaterialFloat(Material material, string propertyName)
+        {
+            return HasProperty(material, propertyName) ? material.GetFloat(propertyName) : 0f;
         }
 
         #endregion
@@ -753,14 +863,8 @@ namespace Pear.Editor
 
         private void SyncAllKeywords(Material material)
         {
-            SetKeyword(material, "_PEAR_HUE_SHIFT_ON", IsPropertyEnabled("_HueShiftEnabled"));
-            SetKeyword(material, "_PEAR_MIDTONE_ON", IsPropertyEnabled("_MidtoneEnabled"));
-            SetKeyword(material, "_PEAR_RAMP_ON", IsPropertyEnabled("_RampEnabled"));
-            SetKeyword(material, "_PEAR_RIM_ON", IsPropertyEnabled("_RimEnabled"));
-            SetKeyword(material, "_PEAR_EMISSION_ON", IsPropertyEnabled("_EmissionEnabled"));
-            SetKeyword(material, "_PEAR_MATCAP_ON", IsPropertyEnabled("_MatcapEnabled"));
-            SetKeyword(material, "_PEAR_SHIMMER_ON", IsPropertyEnabled("_ShimmerEnabled"));
-            SetKeyword(material, "_PEAR_OUTLINE_ON", IsPropertyEnabled("_OutlineEnabled"));
+            PearPresetApplier.SyncAllKeywords(material);
+            EditorUtility.SetDirty(material);
         }
 
         private void DrawMissingPropertyWarning(string propertyName)

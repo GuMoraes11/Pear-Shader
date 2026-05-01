@@ -7,6 +7,7 @@ Shader "Pear/URP/Toon"
 
         [Toggle(_PEAR_HUE_SHIFT_ON)] _HueShiftEnabled ("Enable Texture Hue Shift", Float) = 0
         _HueShift ("Hue Shift", Range(-180, 180)) = 0
+        _HueShiftSpeed ("Hue Shift Speed", Range(-360, 360)) = 0
         _HueSaturation ("Saturation", Range(0, 2)) = 1
         _HueBrightness ("Brightness", Range(0, 2)) = 1
         _HueShiftMask ("Hue Shift Mask", 2D) = "white" {}
@@ -120,6 +121,7 @@ Shader "Pear/URP/Toon"
 
                 float _HueShiftEnabled;
                 float _HueShift;
+                float _HueShiftSpeed;
                 float _HueSaturation;
                 float _HueBrightness;
                 float4 _HueShiftMask_ST;
@@ -226,7 +228,8 @@ Shader "Pear/URP/Toon"
                     half mask = SAMPLE_TEXTURE2D(_HueShiftMask, sampler_HueShiftMask, uv).r;
                     float3 hsv = PearRgbToHsv(saturate(color));
 
-                    hsv.x = frac(hsv.x + (_HueShift / 360.0) * mask);
+                    float animatedHue = _HueShift + (_Time.y * _HueShiftSpeed);
+                    hsv.x = frac(hsv.x + (animatedHue / 360.0) * mask);
                     hsv.y = saturate(hsv.y * lerp(1.0, _HueSaturation, mask));
                     hsv.z = saturate(hsv.z * lerp(1.0, _HueBrightness, mask));
 
@@ -271,8 +274,8 @@ Shader "Pear/URP/Toon"
             half4 Frag(Varyings input) : SV_Target
             {
                 half4 baseTexture = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.uv);
-                half3 shiftedBaseColor = ApplyTextureHueShift(baseTexture.rgb, input.uv);
-                half3 albedo = shiftedBaseColor * _BaseColor.rgb;
+                half3 albedo = baseTexture.rgb * _BaseColor.rgb;
+                albedo = ApplyTextureHueShift(albedo, input.uv);
 
                 half3 normalWS = GetNormalWS(input);
                 half3 viewDirWS = normalize(input.viewDirWS);
@@ -401,6 +404,7 @@ Shader "Pear/URP/Toon"
 
                 float _HueShiftEnabled;
                 float _HueShift;
+                float _HueShiftSpeed;
                 float _HueSaturation;
                 float _HueBrightness;
                 float4 _HueShiftMask_ST;
@@ -524,6 +528,7 @@ Shader "Pear/URP/Toon"
 
                 float _HueShiftEnabled;
                 float _HueShift;
+                float _HueShiftSpeed;
                 float _HueSaturation;
                 float _HueBrightness;
                 float4 _HueShiftMask_ST;

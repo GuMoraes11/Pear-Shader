@@ -7,7 +7,7 @@
   <title>Pear Shader</title>
   <meta
     name="description"
-    content="Pear is a stylized Unity URP shader toolkit with a custom inspector UI, toon lighting, ramp textures, outline, hue shifting, rim light, emission, matcap reflection, glitter shimmer, and pear-themed presets."
+    content="Pear is a cozy stylized Unity shader toolkit for URP and Built-In Render Pipeline, with toon lighting, ramp textures, animated hue shifting, outline, rim light, matcap reflection, glitter shimmer, validation warnings, and Pear, Cozy, Bold, and Gloss quick-look presets."
   />
 
   <link rel="stylesheet" href="styles.css" />
@@ -40,15 +40,16 @@
 
     <section class="hero-grid">
       <div class="hero-copy">
-        <p class="eyebrow">Unity URP Shader Project</p>
+        <p class="eyebrow">Unity URP / Built-In Shader Toolkit</p>
         <h1>Stylized toon shading with approachable controls.</h1>
 
         <p class="hero-text">
-          Pear is a Unity URP shader toolkit that started as an all-purpose shader
+          Pear is a cozy stylized Unity shader toolkit that started as an all-purpose shader
           for my own Unity projects and slowly turned into a focused standalone tool.
           It brings together ShaderLab/HLSL toon lighting, a custom material inspector,
-          band controls, ramp textures, hue shifting, outline, rim light, emission,
-          matcap reflection, and glitter shimmer in one compact shader.
+          band controls, ramp textures, animated hue shifting, outline, rim light,
+          emission, matcap reflection, glitter shimmer, and quick-look presets for
+          URP and Built-In Render Pipeline workflows.
         </p>
 
         <div class="hero-actions">
@@ -66,7 +67,7 @@
 
       <div class="hero-card">
         <img
-          src="images/pear-hero.gif?v=4"
+          src="images/pear-hero.gif?v=5"
           alt="Pear Shader hero render showing stylized toon shading in motion"
           class="showcase-image"
         />
@@ -78,8 +79,8 @@
     <section class="section intro">
       <p>
         Pear is built to feel like a small production shader tool: readable code,
-        organized controls, clear feature toggles, and an inspector that is easier
-        to work with than a wall of random sliders.
+        organized controls, quick-look presets, validation warnings, and an inspector
+        that is easier to work with than a wall of random sliders.
       </p>
     </section>
 
@@ -91,10 +92,10 @@
 
       <div class="feature-grid">
         <article class="feature-card">
-          <h3>URP Toon Lighting</h3>
+          <h3>URP / BiRP Toon Lighting</h3>
           <p>
-            Custom ShaderLab/HLSL lighting with shadow color, light threshold,
-            softness, ambient fill, and direct light intensity controls.
+            Separate URP and Built-In Render Pipeline toon shaders with shadow color,
+            light threshold, softness, ambient fill, and direct light intensity controls.
           </p>
         </article>
 
@@ -115,10 +116,10 @@
         </article>
 
         <article class="feature-card">
-          <h3>Texture Hue Shift</h3>
+          <h3>Animated Hue Shift</h3>
           <p>
-            Maskable hue, saturation, and brightness controls make it easier to
-            create color variations while keeping the original texture workflow intact.
+            Maskable hue, saturation, brightness, and hue shift speed controls make
+            it easier to create static color variants or animated color cycling looks.
           </p>
         </article>
 
@@ -154,7 +155,7 @@
         <ul class="check-list">
           <li>Grouped controls for Color & Surface, Toon Lighting, Stylized Effects, Outline, and Advanced</li>
           <li>Feature toggles connected to local shader keywords</li>
-          <li>Preset buttons for Soft Anime, Cel Shadow, and Glossy Toy</li>
+          <li>Quick-look preset buttons for Pear, Cozy, Bold, and Gloss</li>
           <li>Custom styled inspector header with user-selectable UI accent color</li>
           <li>Cleaner inline buttons for Midtone Band, Ramp Texture, and optional effects</li>
         </ul>
@@ -162,7 +163,7 @@
 
       <div class="screenshot-card">
         <img
-          src="images/pear-inspector.png?v=4"
+          src="images/pear-inspector.png?v=5"
           alt="Pear Shader custom Unity inspector"
           class="showcase-image tall-image"
         />
@@ -172,20 +173,20 @@
     <section id="comparison" class="section split reverse">
       <div class="screenshot-card">
         <img
-          src="images/pear-comparison.gif?v=4"
-          alt="Pear Shader material comparison showing pear-themed presets"
-          class="showcase-image tall-image"
+          src="images/pear-demo-overview.gif?v=1"
+          alt="Pear Shader demo scene showing feature examples and quick-look presets"
+          class="showcase-image demo-overview-image"
         />
       </div>
 
       <div>
         <p class="eyebrow">Material Comparison</p>
-        <h2>Different looks, same shader.</h2>
+        <h2>A cleaner demo scene for the current toolkit.</h2>
 
         <p>
-          Pear is meant to support a few different stylized directions without
-          turning into a messy all-purpose shader. The comparison view shows how
-          much the material can change just by adjusting the preset values.
+          The current demo scene shows focused feature examples for outline, rim,
+          shimmer, matcap, and hue shift, alongside the four quick-look presets:
+          Pear, Cozy, Bold, and Gloss.
         </p>
       </div>
     </section>
@@ -193,36 +194,44 @@
     <section id="presets" class="section">
       <div class="section-heading">
         <p class="eyebrow">Pear Presets</p>
-        <h2>Three focused looks, one shared art direction.</h2>
+        <h2>Four quick looks, one shared art direction.</h2>
 
         <p class="section-subtext">
-          The current presets lean into the project theme with soft pear-green
-          and olive tones while still being useful for general stylized materials.
+          The current presets lean into the project theme with soft pear-green,
+          cream, and olive tones while staying useful for general stylized materials.
         </p>
       </div>
 
       <div class="feature-grid">
         <article class="feature-card preset-card">
-          <h3>Soft Anime</h3>
+          <h3>Pear</h3>
           <p>
-            Gentle toon lighting, soft sage shadow tint, subtle rim light,
-            and a thin outline for a friendly character-shader look.
+            A clean neutral starting material with soft toon response and a simple
+            pear-green base for building custom looks.
           </p>
         </article>
 
         <article class="feature-card preset-card">
-          <h3>Cel Shadow</h3>
+          <h3>Cozy</h3>
           <p>
-            Hard graphic bands, olive midtones, darker green shadows,
-            and a bolder outline for a stronger cel-shaded read.
+            A soft, warm toon look with gentle shading, subtle rim light, and a
+            friendly handmade feel.
           </p>
         </article>
 
         <article class="feature-card preset-card">
-          <h3>Glossy Toy</h3>
+          <h3>Bold</h3>
           <p>
-            Soft toy-like lighting with a warm rim highlight and pale pear shimmer
-            for a glossier finish.
+            A punchier graphic toon look with stronger banding, darker olive shadows,
+            and a readable outline.
+          </p>
+        </article>
+
+        <article class="feature-card preset-card">
+          <h3>Gloss</h3>
+          <p>
+            A sparkly pearlescent look with rim highlights and glitter shimmer for
+            glossy toy-like surfaces.
           </p>
         </article>
       </div>
@@ -296,25 +305,26 @@
         <div class="roadmap-item done">
           <span>Done</span>
           <p>
-            Base URP lighting, toon bands, midtone band, ramp texture mode,
-            texture hue shifting, rim light, emission, matcap reflection,
-            glitter shimmer, outline, pear-themed presets, and custom inspector UI.
+            Base URP and BiRP toon shaders, toon bands, midtone band, ramp texture mode,
+            animated hue shifting, rim light, emission, matcap reflection,
+            glitter shimmer, outline, Pear/Cozy/Bold/Gloss presets, validation warnings,
+            and custom inspector UI.
           </p>
         </div>
 
         <div class="roadmap-item current">
           <span>Now</span>
           <p>
-            Stabilizing the current feature set, fine tuning the themed presets,
-            polishing the demo scene, and preparing clean screenshots for the website.
+            Polishing the demo scene, updating the website and README, preparing clean screenshots,
+            and packaging a v0.2.0 release.
           </p>
         </div>
 
         <div class="roadmap-item">
           <span>Later</span>
           <p>
-            ScriptableObject presets, stronger demo materials, final documentation,
-            and a complete portfolio breakdown once the visuals are locked.
+            Pear Water, ScriptableObject presets, stronger outline tooling, performance modes,
+            and a complete portfolio breakdown once the v0.2 presentation is locked.
           </p>
         </div>
       </div>
@@ -322,7 +332,7 @@
   </main>
 
   <footer class="footer">
-    <p>Pear Shader — Unity URP portfolio project.</p>
+    <p>Pear Shader — cozy stylized Unity shader toolkit.</p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
